@@ -21,6 +21,9 @@ public class EnvironmentChanger : MonoBehaviour {
                 listOfObjects.Add(obj);
             }
         }
+
+
+
     }
 	
 	// Update is called once per frame
