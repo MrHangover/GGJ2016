@@ -23,37 +23,88 @@ public class EnvironmentChanger : MonoBehaviour {
         }
     }
 	
+    public void SwitchState()
+    {
+        if(state == Environment.Ice)
+        {
+            state = Environment.Fire;
+        }
+        else
+        {
+            state = Environment.Ice;
+        }
+    }
+
 	// Update is called once per frame
 	void Update () {
         //Input and moving
         Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         body.velocity = input * 3f;
 
-        //Searching through tiles
-	    for(int i = 0; i < listOfObjects.Count; i++)
+        if (Input.GetButtonDown("Fire1"))
         {
-            if(Vector2.Distance(listOfObjects[i].transform.position, transform.position) < 5)
-            {
-                if (listOfObjects[i].tag == "Lava")
+            SwitchState();
+        }
+
+        //Searching through tiles
+        switch (state)
+        {
+            case Environment.Fire:
+                for (int i = 0; i < listOfObjects.Count; i++)
                 {
-                    listOfObjects[i].SetActive(false);
+                    if (Vector2.Distance(listOfObjects[i].transform.position, transform.position) < 5f)
+                    {
+                        if (listOfObjects[i].tag == "Lava")
+                        {
+                            listOfObjects[i].SetActive(true);
+                        }
+                        else
+                        {
+                            listOfObjects[i].SetActive(false);
+                        }
+                    }
+                    else
+                    {
+                        if (listOfObjects[i].tag == "Lava")
+                        {
+                            listOfObjects[i].SetActive(false);
+                        }
+                        else
+                        {
+                            listOfObjects[i].SetActive(true);
+                        }
+                    }
                 }
-                else
+                break;
+            case Environment.Ice:
+                for (int i = 0; i < listOfObjects.Count; i++)
                 {
-                    listOfObjects[i].SetActive(true);
+                    if (Vector2.Distance(listOfObjects[i].transform.position, transform.position) < 5f)
+                    {
+                        if (listOfObjects[i].tag == "Lava")
+                        {
+                            listOfObjects[i].SetActive(false);
+                        }
+                        else
+                        {
+                            listOfObjects[i].SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        if (listOfObjects[i].tag == "Lava")
+                        {
+                            listOfObjects[i].SetActive(true);
+                        }
+                        else
+                        {
+                            listOfObjects[i].SetActive(false);
+                        }
+                    }
                 }
-            }
-            else
-            {
-                if (listOfObjects[i].tag == "Lava")
-                {
-                    listOfObjects[i].SetActive(true);
-                }
-                else
-                {
-                    listOfObjects[i].SetActive(false);
-                }
-            }
+                break;
+            default:
+                break;
         }
 	}
 }
