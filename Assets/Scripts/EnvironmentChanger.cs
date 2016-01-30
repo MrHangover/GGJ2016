@@ -7,6 +7,7 @@ public class EnvironmentChanger : MonoBehaviour {
     public static int WIDTH = 31;
     public static int HEIGHT = 18;
 
+    // must be public to allow EnemyRegular.cs to access
     public enum Environment {Fire, Ice};
     
     // Player state starts as Ice (the surrounding bubble)
@@ -70,7 +71,6 @@ public class EnvironmentChanger : MonoBehaviour {
 	
     public void SwitchState()
     {
-
         /*
             Switch the current player state enum
         */
@@ -113,16 +113,17 @@ public class EnvironmentChanger : MonoBehaviour {
         foreach (EnemyRegular enemy in arrOfEnemyObjects)
         {
             GameObject tmpObj = enemy.gameObject;
-            if (tmpObj.tag == "ice")
+            if (tmpObj.tag == "Ice")
             {
                 // currently does nothing, can be removed
             }
-            else if (tmpObj.tag == "fire")
+            else if (tmpObj.tag == "Fire")
             {
 
             }
             else
             {
+                Debug.Log(tmpObj.name);
                 Debug.Log("Error no tag found on enemy");
             }
 
@@ -185,24 +186,32 @@ public class EnvironmentChanger : MonoBehaviour {
                 {
                     if (state == Environment.Fire)
                     {
-                        arrOfTiles[x, y].fire.SetActive(false);
-                        arrOfTiles[x, y].ice.SetActive(true);
+                        if (arrOfTiles[x, y].fire != null)
+                            arrOfTiles[x, y].fire.SetActive(false);
+                        if (arrOfTiles[x, y].ice != null)
+                            arrOfTiles[x, y].ice.SetActive(true);
                     }
                     else
                     {
-                        arrOfTiles[x, y].fire.SetActive(true);
-                        arrOfTiles[x, y].ice.SetActive(false);
+                        if (arrOfTiles[x, y].fire != null)
+                            arrOfTiles[x, y].fire.SetActive(true);
+                        if (arrOfTiles[x, y].ice != null)
+                            arrOfTiles[x, y].ice.SetActive(false);
                     }
                 }
                 else if (state == Environment.Fire)
                 {
-                    arrOfTiles[x, y].fire.SetActive(true);
-                    arrOfTiles[x, y].ice.SetActive(false);
+                    if (arrOfTiles[x, y].fire != null)
+                        arrOfTiles[x, y].fire.SetActive(true);
+                    if (arrOfTiles[x, y].ice != null)
+                        arrOfTiles[x, y].ice.SetActive(false);
                 }
                 else
                 {
-                    arrOfTiles[x, y].fire.SetActive(false);
-                    arrOfTiles[x, y].ice.SetActive(true);
+                    if (arrOfTiles[x, y].fire != null)
+                        arrOfTiles[x, y].fire.SetActive(false);
+                    if (arrOfTiles[x, y].ice != null)
+                        arrOfTiles[x, y].ice.SetActive(true);
                 }
             }
         }

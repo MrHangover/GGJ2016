@@ -12,10 +12,12 @@ public class Movement : MonoBehaviour {
 
     Vector2 input;
     Rigidbody2D body;
+    Animator anim;
 
     // Use this for initialization
     void Start () {
         body = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -26,6 +28,15 @@ public class Movement : MonoBehaviour {
             input.Normalize();
         }
         
+        if(input.sqrMagnitude > 0f)
+        {
+            anim.SetBool("isMoving", true);
+        }
+        else
+        {
+            anim.SetBool("isMoving", false);
+        }
+        anim.SetFloat("ySpeed", input.y);
     }
 
     void FixedUpdate()
