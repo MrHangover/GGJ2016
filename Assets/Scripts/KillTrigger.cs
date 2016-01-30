@@ -1,18 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class KillTrigger : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Player")
         {
-
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

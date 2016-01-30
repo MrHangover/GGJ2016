@@ -9,16 +9,19 @@ public class Movement : MonoBehaviour {
     public float acceleration = 2f;
     [Range(0f, 50f)]
     public float friction = 1f;
+    public GameObject newMe;
 
     Vector2 input;
     Rigidbody2D body;
     Animator anim;
-    
+    Vector3 respawnPosition;
 
     // Use this for initialization
     void Start () {
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        respawnPosition = transform.position;
+        newMe = gameObject;
     }
 
     // Update is called once per frame
@@ -65,9 +68,6 @@ public class Movement : MonoBehaviour {
             body.velocity = body.velocity.normalized * maxSpeed;
         }
     }
-    
-
-    
 
     void OnTriggerEnter2D(Collider2D collide)
     {
