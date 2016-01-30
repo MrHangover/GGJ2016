@@ -27,7 +27,6 @@ public class EnemyParent : MonoBehaviour {
 
     public void switchState()
     {
-        Debug.Log("switch State called");
         if(EnemyState== EnvironmentChanger.Environment.Ice)
         {
             EnemyState = EnvironmentChanger.Environment.Fire;

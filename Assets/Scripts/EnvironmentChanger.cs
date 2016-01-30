@@ -24,11 +24,6 @@ public class EnvironmentChanger : MonoBehaviour {
         public GameObject ice;
     };
 
-
-
-    
-
-	// Use this for initialization
 	void Start () {
         arrOfObjects = FindObjectsOfType<GameObject>();
         arrOfEnemyParents = FindObjectsOfType<EnemyParent>();

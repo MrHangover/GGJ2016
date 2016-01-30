@@ -73,13 +73,19 @@ public class Movement : MonoBehaviour {
     {
         
         Debug.Log("Trigger!");
-        
-        if  (
-                (collide.gameObject.name== "Fireball(Clone)")
-            )
+
+        GameObject colObj = collide.gameObject;
+
+        if( colObj.GetComponent<EnemyGeneric>().gameObject !=null)
         {
-            
-            UnityEngine.SceneManagement.SceneManager.LoadScene("SecondScene");
+            if(colObj.GetComponent<EnemyGeneric>().Kills())
+            {
+                Reset();
+            }
+        } else if  ( collide.gameObject.name== "Fireball(Clone)")
+        {
+
+            Reset();
         }
         else
         {
@@ -88,5 +94,8 @@ public class Movement : MonoBehaviour {
         return;
     }
     
-    //*/
+    void Reset()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
 }

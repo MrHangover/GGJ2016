@@ -18,6 +18,7 @@ public class EnemyGeneric : MonoBehaviour {
     // ensure Coroutine of shooting doesn't shoot twice 
     // before next seconds needed
     bool isShooting = false;
+    GameObject lastProj = null;
 
     public bool Kills()
     {
@@ -67,9 +68,24 @@ public class EnemyGeneric : MonoBehaviour {
 
     void ShootProjectile()
     {
+        
+        //DestroyLastProjectile(lastProj);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         GameObject proj = (GameObject)Instantiate(projectile, transform.position, Quaternion.identity);
-        Debug.Log(player.transform.position);
-        proj.GetComponent<Rigidbody2D>().velocity = (player.transform.position - gameObject.transform.position).normalized * projectileSpeed;
+        proj.GetComponent<Rigidbody2D>().velocity = (player.transform.position - gameObject.transform.position).normalized * projectileSpeed; 
+        //lastProj = proj;
+        StartCoroutine(DelayedDestroyProjectile(proj));
+    }
+
+    void DestroyLastProjectile(GameObject lastProj)
+    {
+        if (lastProj != null)
+            DestroyObject(lastProj);
+    }
+
+    IEnumerator DelayedDestroyProjectile(GameObject projectile)
+    { 
+        yield return new WaitForSeconds(10);
+        DestroyObject(projectile);
     }
 }
