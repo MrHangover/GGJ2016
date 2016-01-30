@@ -14,7 +14,6 @@ public class EnvironmentChanger : MonoBehaviour {
     Environment state = Environment.Ice;
     GameObject[] arrOfObjects;
     EnemyParent[] arrOfEnemyParents;
-    TileParent[,] arrOfTiles = new TileParent[WIDTH-1, HEIGHT-1];
     EnemyRegular[] arrOfEnemyObjects;
     TileParent[,] arrOfTiles;
     bool isSwitching = true;
@@ -26,11 +25,6 @@ public class EnvironmentChanger : MonoBehaviour {
         public GameObject ice;
     };
 
-
-
-    
-
-	// Use this for initialization
 	void Start () {
         arrOfObjects = FindObjectsOfType<GameObject>();
         arrOfEnemyParents = FindObjectsOfType<EnemyParent>();
