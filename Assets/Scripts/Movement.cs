@@ -76,7 +76,7 @@ public class Movement : MonoBehaviour {
 
         GameObject colObj = collide.gameObject;
 
-        if( colObj.GetComponent<EnemyGeneric>().gameObject !=null)
+        if(colObj.GetComponent<EnemyGeneric>().gameObject != null)
         {
             if(colObj.GetComponent<EnemyGeneric>().Kills())
             {
