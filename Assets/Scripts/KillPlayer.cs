@@ -22,5 +22,6 @@ public class KillPlayer : MonoBehaviour {
         // keep z at -4 so player killer is visible
         gameObject.transform.position = new Vector3(temp.x, temp.y, -4);
 
+        
     }
 }

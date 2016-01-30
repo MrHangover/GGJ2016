@@ -53,4 +53,27 @@ public class Movement : MonoBehaviour {
             body.velocity = body.velocity.normalized * maxSpeed;
         }
     }
+    
+
+
+
+    void OnTriggerEnter2D(Collider2D collide)
+    {
+        
+        Debug.Log("Trigger!");
+
+        if(collide.gameObject.name == "HexagonKiller")
+        {
+            
+            UnityEngine.SceneManagement.SceneManager.LoadScene("SecondScene");
+        }
+        else
+        {
+            
+        }
+        return;
+        //*/
+    }
+    
+    //*/
 }
