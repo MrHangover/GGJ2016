@@ -10,15 +10,19 @@ public class EnemyGeneric : MonoBehaviour {
     public float projectileSpeed;
     public float everyNumSecFire;
 
-
-    public bool doesShoot = true;
+    public bool canKill = false;
+    public bool doesShoot = false;
     public bool doesMove = true;
+    
 
     // ensure Coroutine of shooting doesn't shoot twice 
     // before next seconds needed
     bool isShooting = false;
 
-
+    public bool Kills()
+    {
+        return canKill;
+    }
 
     // Update is called once per frame
     void Update()

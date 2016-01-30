@@ -9,8 +9,6 @@ public class EnemyParent : MonoBehaviour {
 
     // Use this for initialization
     void Awake () {
-        fire = gameObject.GetComponentInChildren<FireEnemy>().gameObject;
-        ice = gameObject.GetComponentInChildren<IceEnemy>().gameObject;
 
         // should probably be set by environmentChanger
         EnemyState = EnvironmentChanger.Environment.Fire;
