@@ -11,7 +11,6 @@ public class EnvironmentChanger : MonoBehaviour {
     Environment state = Environment.Ice;
     GameObject[] arrOfObjects;
     TileParent[,] arrOfTiles = new TileParent[WIDTH-1, HEIGHT-1];
-    Rigidbody2D body;
 
     struct TileParent
     {
@@ -21,7 +20,6 @@ public class EnvironmentChanger : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        body = GetComponent<Rigidbody2D>();
         arrOfObjects = FindObjectsOfType<GameObject>();
         foreach(GameObject obj in arrOfObjects)
         {
@@ -52,7 +50,7 @@ public class EnvironmentChanger : MonoBehaviour {
         }
         foreach(TileParent parent in arrOfTiles)
         {
-            if (parent.ice.active)
+            if (parent.ice.activeSelf)
             {
                 parent.ice.SetActive(false);
             }
@@ -60,7 +58,7 @@ public class EnvironmentChanger : MonoBehaviour {
             {
                 parent.ice.SetActive(true);
             }
-            if (parent.fire.active)
+            if (parent.fire.activeSelf)
             {
                 parent.fire.SetActive(false);
             }
@@ -73,75 +71,13 @@ public class EnvironmentChanger : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        //Input and moving
-        Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        body.velocity = input * 3f;
-
+        //Input for switching tiles
         if (Input.GetButtonDown("Fire1"))
         {
             SwitchState();
         }
 
-        //Searching through tiles
-        //switch (state)
-        //{
-        //    case Environment.Fire:
-        //        for (int i = 0; i < listOfObjects.Count; i++)
-        //        {
-        //            if (Vector2.Distance(listOfObjects[i].transform.position, transform.position) < 5f)
-        //            {
-        //                if (listOfObjects[i].tag == "Lava")
-        //                {
-        //                    listOfObjects[i].SetActive(true);
-        //                }
-        //                else
-        //                {
-        //                    listOfObjects[i].SetActive(false);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                if (listOfObjects[i].tag == "Lava")
-        //                {
-        //                    listOfObjects[i].SetActive(false);
-        //                }
-        //                else
-        //                {
-        //                    listOfObjects[i].SetActive(true);
-        //                }
-        //            }
-        //        }
-        //        break;
-        //    case Environment.Ice:
-        //        for (int i = 0; i < listOfObjects.Count; i++)
-        //        {
-        //            if (Vector2.Distance(listOfObjects[i].transform.position, transform.position) < 5f)
-        //            {
-        //                if (listOfObjects[i].tag == "Lava")
-        //                {
-        //                    listOfObjects[i].SetActive(false);
-        //                }
-        //                else
-        //                {
-        //                    listOfObjects[i].SetActive(true);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                if (listOfObjects[i].tag == "Lava")
-        //                {
-        //                    listOfObjects[i].SetActive(true);
-        //                }
-        //                else
-        //                {
-        //                    listOfObjects[i].SetActive(false);
-        //                }
-        //            }
-        //        }
-        //        break;
-        //    default:
-        //        break;
-        //}
+        //Searching through closest tiles using a kernel
         int xMin = Mathf.Clamp((int)transform.position.x - 5, 0, WIDTH - 1);
         int xMax = Mathf.Clamp((int)transform.position.x + 7, 0, WIDTH - 1);
         int yMin = Mathf.Clamp((int)transform.position.y - 5, 0, HEIGHT - 1);
