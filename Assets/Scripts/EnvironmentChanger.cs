@@ -4,11 +4,20 @@ using System.Collections.Generic;
 
 public class EnvironmentChanger : MonoBehaviour {
 
+    public static int WIDTH = 31;
+    public static int HEIGHT = 18;
+
     enum Environment {Fire, Ice};
     Environment state = Environment.Ice;
     GameObject[] arrOfObjects;
-    List<GameObject> listOfObjects = new List<GameObject>();
+    TileParent[,] arrOfTiles = new TileParent[WIDTH-1, HEIGHT-1];
     Rigidbody2D body;
+
+    struct TileParent
+    {
+        public GameObject fire;
+        public GameObject ice;
+    };
 
 	// Use this for initialization
 	void Start () {
@@ -18,12 +27,17 @@ public class EnvironmentChanger : MonoBehaviour {
         {
             if (obj.layer == 8)
             {
-                listOfObjects.Add(obj);
+                if(obj.tag == "Grass")
+                {
+                    arrOfTiles[(int)obj.transform.position.x, (int)obj.transform.position.y].ice = obj;
+                    obj.SetActive(false);
+                }
+                else
+                {
+                    arrOfTiles[(int)obj.transform.position.x, (int)obj.transform.position.y].fire = obj;
+                }
             }
         }
-
-
-
     }
 	
     public void SwitchState()
@@ -35,6 +49,25 @@ public class EnvironmentChanger : MonoBehaviour {
         else
         {
             state = Environment.Ice;
+        }
+        foreach(TileParent parent in arrOfTiles)
+        {
+            if (parent.ice.active)
+            {
+                parent.ice.SetActive(false);
+            }
+            else
+            {
+                parent.ice.SetActive(true);
+            }
+            if (parent.fire.active)
+            {
+                parent.fire.SetActive(false);
+            }
+            else
+            {
+                parent.fire.SetActive(true);
+            }
         }
     }
 
@@ -50,64 +83,98 @@ public class EnvironmentChanger : MonoBehaviour {
         }
 
         //Searching through tiles
-        switch (state)
+        //switch (state)
+        //{
+        //    case Environment.Fire:
+        //        for (int i = 0; i < listOfObjects.Count; i++)
+        //        {
+        //            if (Vector2.Distance(listOfObjects[i].transform.position, transform.position) < 5f)
+        //            {
+        //                if (listOfObjects[i].tag == "Lava")
+        //                {
+        //                    listOfObjects[i].SetActive(true);
+        //                }
+        //                else
+        //                {
+        //                    listOfObjects[i].SetActive(false);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (listOfObjects[i].tag == "Lava")
+        //                {
+        //                    listOfObjects[i].SetActive(false);
+        //                }
+        //                else
+        //                {
+        //                    listOfObjects[i].SetActive(true);
+        //                }
+        //            }
+        //        }
+        //        break;
+        //    case Environment.Ice:
+        //        for (int i = 0; i < listOfObjects.Count; i++)
+        //        {
+        //            if (Vector2.Distance(listOfObjects[i].transform.position, transform.position) < 5f)
+        //            {
+        //                if (listOfObjects[i].tag == "Lava")
+        //                {
+        //                    listOfObjects[i].SetActive(false);
+        //                }
+        //                else
+        //                {
+        //                    listOfObjects[i].SetActive(true);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (listOfObjects[i].tag == "Lava")
+        //                {
+        //                    listOfObjects[i].SetActive(true);
+        //                }
+        //                else
+        //                {
+        //                    listOfObjects[i].SetActive(false);
+        //                }
+        //            }
+        //        }
+        //        break;
+        //    default:
+        //        break;
+        //}
+        int xMin = Mathf.Clamp((int)transform.position.x - 5, 0, WIDTH - 1);
+        int xMax = Mathf.Clamp((int)transform.position.x + 7, 0, WIDTH - 1);
+        int yMin = Mathf.Clamp((int)transform.position.y - 5, 0, HEIGHT - 1);
+        int yMax = Mathf.Clamp((int)transform.position.y + 7, 0, HEIGHT - 1);
+
+        for(int x = xMin; x < xMax; x++)
         {
-            case Environment.Fire:
-                for (int i = 0; i < listOfObjects.Count; i++)
+            for(int y = yMin; y < yMax; y++)
+            {
+                if((x == xMin || x == xMax - 1) || (y == yMin || y == yMax - 1))
                 {
-                    if (Vector2.Distance(listOfObjects[i].transform.position, transform.position) < 5f)
+                    if (state == Environment.Fire)
                     {
-                        if (listOfObjects[i].tag == "Lava")
-                        {
-                            listOfObjects[i].SetActive(true);
-                        }
-                        else
-                        {
-                            listOfObjects[i].SetActive(false);
-                        }
+                        arrOfTiles[x, y].fire.SetActive(false);
+                        arrOfTiles[x, y].ice.SetActive(true);
                     }
                     else
                     {
-                        if (listOfObjects[i].tag == "Lava")
-                        {
-                            listOfObjects[i].SetActive(false);
-                        }
-                        else
-                        {
-                            listOfObjects[i].SetActive(true);
-                        }
+                        arrOfTiles[x, y].fire.SetActive(true);
+                        arrOfTiles[x, y].ice.SetActive(false);
                     }
                 }
-                break;
-            case Environment.Ice:
-                for (int i = 0; i < listOfObjects.Count; i++)
+                else if(state == Environment.Fire)
                 {
-                    if (Vector2.Distance(listOfObjects[i].transform.position, transform.position) < 5f)
-                    {
-                        if (listOfObjects[i].tag == "Lava")
-                        {
-                            listOfObjects[i].SetActive(false);
-                        }
-                        else
-                        {
-                            listOfObjects[i].SetActive(true);
-                        }
-                    }
-                    else
-                    {
-                        if (listOfObjects[i].tag == "Lava")
-                        {
-                            listOfObjects[i].SetActive(true);
-                        }
-                        else
-                        {
-                            listOfObjects[i].SetActive(false);
-                        }
-                    }
+                    arrOfTiles[x, y].fire.SetActive(true);
+                    arrOfTiles[x, y].ice.SetActive(false);
                 }
-                break;
-            default:
-                break;
+                else
+                {
+                    arrOfTiles[x, y].fire.SetActive(false);
+                    arrOfTiles[x, y].ice.SetActive(true);
+                }
+            }
         }
-	}
+    }
 }
