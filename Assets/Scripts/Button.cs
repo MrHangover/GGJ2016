@@ -4,8 +4,10 @@ using System.Collections;
 public class Button : MonoBehaviour {
 
     public Sprite[] sprites;
-    ButtonMaster parentButton;
+    public bool activateOnce = true;
 
+    bool activated = false;
+    ButtonMaster parentButton;
     SpriteRenderer rend;
 
 	// Use this for initialization
@@ -16,12 +18,31 @@ public class Button : MonoBehaviour {
 
     void OnTriggerEnter2D()
     {
-        rend.sprite = sprites[1];
-        parentButton.OpenDoors();
+        if (!activated)
+        {
+            rend.sprite = sprites[1];
+            parentButton.OpenDoors();
+            activated = true;
+        }
     }
 
     void OnTriggerExit2D()
     {
-        //rend.sprite = sprites[0];
+        if (!activateOnce && activated)
+        {
+            rend.sprite = sprites[0];
+            parentButton.CloseDoors();
+            activated = false;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (!activateOnce && activated)
+        {
+            rend.sprite = sprites[0];
+            parentButton.CloseDoors();
+            activated = false;
+        }
     }
 }

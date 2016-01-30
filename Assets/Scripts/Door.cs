@@ -29,6 +29,11 @@ public class Door : MonoBehaviour {
 
     void OnEnable()
     {
+        Invoke("CheckDoor", 0.1f);
+    }
+    
+    void CheckDoor()
+    {
         if (parentDoor.open)
         {
             Open();

@@ -9,8 +9,15 @@ public class ButtonMaster : MonoBehaviour {
     {
         for(int i = 0; i < connectedDoors.Length; i++)
         {
-            connectedDoors[i].Open();
+            connectedDoors[i].Add();
         }
     }
 
+    public void CloseDoors()
+    {
+        for (int i = 0; i < connectedDoors.Length; i++)
+        {
+            connectedDoors[i].Subtract();
+        }
+    }
 }

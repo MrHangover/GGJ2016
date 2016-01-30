@@ -3,7 +3,10 @@ using System.Collections;
 
 public class DoorMaster : MonoBehaviour {
 
+    public int buttonsNeededToOpen = 1;
     public bool open = false;
+
+    int buttonsActivated = 0;
     Door[] childDoors;
 	
     void Start()
@@ -28,5 +31,21 @@ public class DoorMaster : MonoBehaviour {
         {
             childDoors[i].Close();
         }
+    }
+
+    public void Add()
+    {
+        buttonsActivated++;
+        if (buttonsActivated >= buttonsNeededToOpen)
+            Open();
+        Debug.Log(buttonsActivated);
+    }
+
+    public void Subtract()
+    {
+        buttonsActivated--;
+        if (buttonsActivated < buttonsNeededToOpen)
+            Close();
+        Debug.Log(buttonsActivated);
     }
 }
