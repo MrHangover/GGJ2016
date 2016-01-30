@@ -16,9 +16,7 @@ public class EnvironmentChanger : MonoBehaviour {
 
 
     EnemyParent[] arrOfEnemyParents;
-
-    // deprecated array
-    EnemyRegular[] arrOfEnemyObjects;
+    
     TileParent[,] arrOfTiles = new TileParent[WIDTH-1, HEIGHT-1];
 
     struct TileParent
@@ -36,9 +34,7 @@ public class EnvironmentChanger : MonoBehaviour {
         arrOfObjects = FindObjectsOfType<GameObject>();
 
         arrOfEnemyParents = FindObjectsOfType<EnemyParent>();
-
-        // to remove
-        arrOfEnemyObjects = FindObjectsOfType<EnemyRegular>();
+        
 
 
         /*
@@ -70,17 +66,21 @@ public class EnvironmentChanger : MonoBehaviour {
             
             else if (obj.layer == 9)
             {
-                if(obj.tag=="Ice")
-                {
-                    obj.SetActive(false);
-                    
-                }
-                else { 
-                // Fire object
-                }
                 
             }
 
+            
+
+        }
+
+        foreach( EnemyParent enemyp in arrOfEnemyParents)
+        {
+            // if enemy parent is Ice 
+            // switch it so it starts as fire
+            if(enemyp.getState() == Environment.Ice)
+            {
+                enemyp.switchState();
+            }
         }
 
 
@@ -130,27 +130,9 @@ public class EnvironmentChanger : MonoBehaviour {
         /*
             Switch all enemy objects
         */
-
-        foreach (EnemyRegular enemy in arrOfEnemyObjects)
+        foreach(EnemyParent enemyp in arrOfEnemyParents)
         {
-            GameObject tmpObj = enemy.gameObject;
-            if (tmpObj.tag == "Ice")
-            {
-                // currently does nothing, can be removed
-            }
-            else if (tmpObj.tag == "Fire")
-            {
-
-            }
-            else
-            {
-                Debug.Log(tmpObj.name);
-                Debug.Log("Error no tag found on enemy");
-            }
-
-            SwitchEnemy(tmpObj);
-
-
+            enemyp.switchState();
         }
 
     }

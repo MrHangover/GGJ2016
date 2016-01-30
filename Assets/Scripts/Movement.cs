@@ -13,6 +13,7 @@ public class Movement : MonoBehaviour {
     Vector2 input;
     Rigidbody2D body;
     Animator anim;
+    
 
     // Use this for initialization
     void Start () {
@@ -72,15 +73,18 @@ public class Movement : MonoBehaviour {
     {
         
         Debug.Log("Trigger!");
-
-        if(collide.gameObject.name == "fireHexagon")
+        
+        if  (
+                (collide.gameObject.name == "fireHexagon")||
+                (collide.gameObject.name== "Fireball(Clone)")
+            )
         {
             
             UnityEngine.SceneManagement.SceneManager.LoadScene("SecondScene");
         }
         else
         {
-            
+            Debug.Log("Hvad er det? "+collide.gameObject.name);
         }
         return;
     }
