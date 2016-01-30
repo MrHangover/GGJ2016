@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class KillPlayer : MonoBehaviour {
+public class FireEnemy : EnemyRegular {
 
     public float moveDistance;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+    void Start()
+    {
+        EnemyState = EnvironmentChanger.Environment.Fire;
+    }
 	
 	// Update is called once per frame
 	void Update () {
+        // overwrite Hexagon Update
+
 
         Vector2 temp = 
             Vector2.MoveTowards(
@@ -20,8 +22,7 @@ public class KillPlayer : MonoBehaviour {
                 moveDistance);
 
         // keep z at -4 so player killer is visible
-        gameObject.transform.position = new Vector3(temp.x, temp.y, -4);
+        gameObject.transform.parent.transform.position = new Vector3(temp.x, temp.y, -4);
 
-        
     }
 }

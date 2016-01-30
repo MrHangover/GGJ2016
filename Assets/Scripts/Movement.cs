@@ -62,7 +62,7 @@ public class Movement : MonoBehaviour {
         
         Debug.Log("Trigger!");
 
-        if(collide.gameObject.name == "HexagonKiller")
+        if(collide.gameObject.name == "fireHexagon")
         {
             
             UnityEngine.SceneManagement.SceneManager.LoadScene("SecondScene");
