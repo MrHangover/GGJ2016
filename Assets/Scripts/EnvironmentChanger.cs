@@ -13,6 +13,11 @@ public class EnvironmentChanger : MonoBehaviour {
     // Player state starts as Ice (the surrounding bubble)
     Environment state = Environment.Ice;
     GameObject[] arrOfObjects;
+
+
+    EnemyParent[] arrOfEnemyParents;
+
+    // deprecated array
     EnemyRegular[] arrOfEnemyObjects;
     TileParent[,] arrOfTiles = new TileParent[WIDTH-1, HEIGHT-1];
 
@@ -22,19 +27,29 @@ public class EnvironmentChanger : MonoBehaviour {
         public GameObject ice;
     };
 
+
+
     
 
 	// Use this for initialization
 	void Start () {
         arrOfObjects = FindObjectsOfType<GameObject>();
+
+        arrOfEnemyParents = FindObjectsOfType<EnemyParent>();
+
+        // to remove
         arrOfEnemyObjects = FindObjectsOfType<EnemyRegular>();
-        
+
+
         /*
             Set all GameObjects in layer 8 ("env" layer) with Ice state disabled
             and fire state enabled
 
             layer 9 is enemy layer
         */
+
+
+        
 
         foreach(GameObject obj in arrOfObjects)
         {
@@ -60,10 +75,15 @@ public class EnvironmentChanger : MonoBehaviour {
                     obj.SetActive(false);
                     
                 }
-                else { /* Fire object*/ }
+                else { 
+                // Fire object
+                }
                 
             }
+
         }
+
+
 
         
         
@@ -110,6 +130,7 @@ public class EnvironmentChanger : MonoBehaviour {
         /*
             Switch all enemy objects
         */
+
         foreach (EnemyRegular enemy in arrOfEnemyObjects)
         {
             GameObject tmpObj = enemy.gameObject;
@@ -148,36 +169,25 @@ public class EnvironmentChanger : MonoBehaviour {
 
     void SwitchEnemysNear()
     {
-        foreach (EnemyRegular enemy in arrOfEnemyObjects)
+        foreach(EnemyParent enemyp in arrOfEnemyParents)
         {
-            GameObject tmpObj = enemy.gameObject;
-            float distance = Vector2.Distance(enemy.transform.position, gameObject.transform.position);
-            Debug.Log(distance);
-            if (distance<5)
+            GameObject enemyObj = enemyp.gameObject;
+            float distance = Vector2.Distance(enemyObj.transform.position, gameObject.transform.position);
+            if (distance < 5)
             {
-                // if player state and enemy state not the same, set it as the same
-                if(state != enemy.EnemyState)
+                // if enemy state doesn't equal player state
+                if(enemyp.getState() != state)
                 {
-                    tmpObj.gameObject.SetActive(false);
-                }
-                else
-                {
-                    tmpObj.gameObject.SetActive(true);
+                    enemyp.switchState();
                 }
             }
-            else if ((6< distance) && (distance < 8))
+            else if (distance <7 )
             {
-                // if player state and the enemy state are the same then 
-                // set the enemy's state as different
-                Debug.Log("state: " + state + " enemy state" + enemy.EnemyState);
-                if (state == enemy.EnemyState)
+                if(enemyp.getState() == state)
                 {
-                    SwitchEnemy(tmpObj);
-                    Debug.Log("same state");
+                    enemyp.switchState();
                 }
             }
-            
-            
         }
     }
 

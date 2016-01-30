@@ -76,14 +76,13 @@ public class Movement : MonoBehaviour {
         if(collide.gameObject.name == "fireHexagon")
         {
             
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Initial");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("SecondScene");
         }
         else
         {
             
         }
         return;
-        //*/
     }
     
     //*/
