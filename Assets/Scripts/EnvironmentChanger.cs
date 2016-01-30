@@ -91,24 +91,32 @@ public class EnvironmentChanger : MonoBehaviour {
                 {
                     if (state == Environment.Fire)
                     {
-                        arrOfTiles[x, y].fire.SetActive(false);
-                        arrOfTiles[x, y].ice.SetActive(true);
+                        if (arrOfTiles[x, y].fire != null)
+                            arrOfTiles[x, y].fire.SetActive(false);
+                        if (arrOfTiles[x, y].ice != null)
+                            arrOfTiles[x, y].ice.SetActive(true);
                     }
                     else
                     {
-                        arrOfTiles[x, y].fire.SetActive(true);
-                        arrOfTiles[x, y].ice.SetActive(false);
+                        if (arrOfTiles[x, y].fire != null)
+                            arrOfTiles[x, y].fire.SetActive(true);
+                        if (arrOfTiles[x, y].ice != null)
+                            arrOfTiles[x, y].ice.SetActive(false);
                     }
                 }
                 else if(state == Environment.Fire)
                 {
-                    arrOfTiles[x, y].fire.SetActive(true);
-                    arrOfTiles[x, y].ice.SetActive(false);
+                    if (arrOfTiles[x, y].fire != null)
+                        arrOfTiles[x, y].fire.SetActive(true);
+                    if (arrOfTiles[x, y].ice != null)
+                        arrOfTiles[x, y].ice.SetActive(false);
                 }
                 else
                 {
-                    arrOfTiles[x, y].fire.SetActive(false);
-                    arrOfTiles[x, y].ice.SetActive(true);
+                    if (arrOfTiles[x, y].fire != null)
+                        arrOfTiles[x, y].fire.SetActive(false);
+                    if (arrOfTiles[x, y].ice != null)
+                        arrOfTiles[x, y].ice.SetActive(true);
                 }
             }
         }
