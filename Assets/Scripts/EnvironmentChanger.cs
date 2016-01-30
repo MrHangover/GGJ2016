@@ -73,15 +73,22 @@ public class EnvironmentChanger : MonoBehaviour {
 
         }
 
+        int enemycount=0;
+
         foreach( EnemyParent enemyp in arrOfEnemyParents)
         {
+            enemycount++;
+            Debug.Log(enemyp.getState());
+
             // if enemy parent is Ice 
             // switch it so it starts as fire
             if(enemyp.getState() == Environment.Ice)
             {
+                Debug.Log("switch state");
                 enemyp.switchState();
             }
         }
+        Debug.Log(enemycount);
 
 
 

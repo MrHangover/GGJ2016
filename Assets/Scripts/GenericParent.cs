@@ -1,20 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyParent : MonoBehaviour {
+public class GenericParent : MonoBehaviour {
+
     public EnvironmentChanger.Environment EnemyState;
     public GameObject fire;
     public GameObject ice;
 
 
     // Use this for initialization
-    void Awake () {
-        fire = gameObject.GetComponentInChildren<FireEnemy>().gameObject;
-        ice = gameObject.GetComponentInChildren<IceEnemy>().gameObject;
+    void Awake()
+    {
+        fire = gameObject.GetComponentInChildren<FireGeneric>().gameObject;
+        ice = gameObject.GetComponentInChildren<IceGeneric>().gameObject;
 
         // should probably be set by environmentChanger
         EnemyState = EnvironmentChanger.Environment.Fire;
-	}
+    }
 
     void Start()
     {
@@ -30,7 +32,7 @@ public class EnemyParent : MonoBehaviour {
     public void switchState()
     {
         Debug.Log("switch State called");
-        if(EnemyState== EnvironmentChanger.Environment.Ice)
+        if (EnemyState == EnvironmentChanger.Environment.Ice)
         {
             EnemyState = EnvironmentChanger.Environment.Fire;
             ice.SetActive(false);
@@ -44,6 +46,5 @@ public class EnemyParent : MonoBehaviour {
             ice.SetActive(true);
         }
     }
-
 
 }

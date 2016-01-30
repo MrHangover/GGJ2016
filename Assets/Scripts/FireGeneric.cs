@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyRegular : MonoBehaviour {
-    
+public class FireGeneric : EnemyGeneric {
+
+
 }

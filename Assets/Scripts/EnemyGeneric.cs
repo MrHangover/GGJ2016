@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FireEnemy : MonoBehaviour {
+public class EnemyGeneric : MonoBehaviour {
+
+	
 
     public float moveDistance;
     public GameObject projectile;
@@ -9,20 +11,22 @@ public class FireEnemy : MonoBehaviour {
     public float everyNumSecFire;
 
 
-    bool doesShoot = true;
-    bool doesMove = true;
+    public bool doesShoot = true;
+    public bool doesMove = true;
 
     // ensure Coroutine of shooting doesn't shoot twice 
     // before next seconds needed
     bool isShooting = false;
 
 
-    // Update is called once per frame
-    void Update () {
 
-        if(doesMove)
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (doesMove)
             MoveTowardsPlayer();
-        if( doesShoot && !isShooting)
+        if (doesShoot && !isShooting)
             StartCoroutine(ShootingProjectile());
     }
 

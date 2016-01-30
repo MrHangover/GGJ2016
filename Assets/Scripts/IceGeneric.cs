@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IceEnemy : MonoBehaviour {
+public class IceGeneric : EnemyGeneric {
 
 }
