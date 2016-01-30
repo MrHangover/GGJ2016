@@ -66,7 +66,7 @@ public class Movement : MonoBehaviour {
     }
     
 
-
+    
 
     void OnTriggerEnter2D(Collider2D collide)
     {
@@ -76,7 +76,7 @@ public class Movement : MonoBehaviour {
         if(collide.gameObject.name == "fireHexagon")
         {
             
-            UnityEngine.SceneManagement.SceneManager.LoadScene("SecondScene");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Initial");
         }
         else
         {

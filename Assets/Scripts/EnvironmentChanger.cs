@@ -22,7 +22,7 @@ public class EnvironmentChanger : MonoBehaviour {
         public GameObject ice;
     };
 
-
+    
 
 	// Use this for initialization
 	void Start () {
@@ -127,23 +127,22 @@ public class EnvironmentChanger : MonoBehaviour {
                 Debug.Log("Error no tag found on enemy");
             }
 
-            SwitchEnemy(enemy);
+            SwitchEnemy(tmpObj);
 
 
         }
 
     }
 
-    void SwitchEnemy(EnemyRegular enemy)
+    void SwitchEnemy(GameObject tempObj)
     {
-        GameObject tmpObj = enemy.gameObject;
-        if (tmpObj.activeSelf)
+        if (tempObj.activeSelf)
         {
-            tmpObj.SetActive(false);
+            tempObj.SetActive(false);
         }
         else
         {
-            tmpObj.SetActive(true);
+            tempObj.SetActive(true);
         }
     }
 
@@ -152,7 +151,9 @@ public class EnvironmentChanger : MonoBehaviour {
         foreach (EnemyRegular enemy in arrOfEnemyObjects)
         {
             GameObject tmpObj = enemy.gameObject;
-            if(Vector2.Distance(enemy.transform.position,gameObject.transform.position)<5)
+            float distance = Vector2.Distance(enemy.transform.position, gameObject.transform.position);
+            Debug.Log(distance);
+            if (distance<5)
             {
                 // if player state and enemy state not the same, set it as the same
                 if(state != enemy.EnemyState)
@@ -164,6 +165,19 @@ public class EnvironmentChanger : MonoBehaviour {
                     tmpObj.gameObject.SetActive(true);
                 }
             }
+            else if ((6< distance) && (distance < 8))
+            {
+                // if player state and the enemy state are the same then 
+                // set the enemy's state as different
+                Debug.Log("state: " + state + " enemy state" + enemy.EnemyState);
+                if (state == enemy.EnemyState)
+                {
+                    SwitchEnemy(tmpObj);
+                    Debug.Log("same state");
+                }
+            }
+            
+            
         }
     }
 
