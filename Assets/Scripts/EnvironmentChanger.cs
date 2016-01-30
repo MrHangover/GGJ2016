@@ -25,7 +25,7 @@ public class EnvironmentChanger : MonoBehaviour {
         {
             if (obj.layer == 8)
             {
-                if(obj.tag == "Grass")
+                if(obj.tag == "Ice")
                 {
                     arrOfTiles[(int)obj.transform.position.x, (int)obj.transform.position.y].ice = obj;
                     obj.SetActive(false);

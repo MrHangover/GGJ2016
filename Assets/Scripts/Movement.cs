@@ -5,9 +5,9 @@ public class Movement : MonoBehaviour {
 
     [Range(0f, 10f)]
     public float maxSpeed = 5f;
-    [Range(0f, 20f)]
+    [Range(0f, 50f)]
     public float acceleration = 2f;
-    [Range(0f, 10f)]
+    [Range(0f, 50f)]
     public float friction = 1f;
 
     Vector2 input;
