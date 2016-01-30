@@ -16,4 +16,15 @@ public class Fireball : MonoBehaviour {
     {
         Destroy(gameObject);
     }
+
+    public void ForwardDestroy()
+    {
+        StartCoroutine(DelayedDestroyProjectile());
+    }
+
+    IEnumerator DelayedDestroyProjectile( )
+    {
+        yield return new WaitForSeconds(10);
+        DestroyObject(gameObject);
+    }
 }

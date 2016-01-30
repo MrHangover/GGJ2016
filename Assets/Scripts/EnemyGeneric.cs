@@ -25,6 +25,15 @@ public class EnemyGeneric : MonoBehaviour {
         return canKill;
     }
 
+    public void SetSettings(bool kills, bool shoots, bool moves)
+    {
+        canKill = kills;
+        doesShoot = shoots;
+        doesMove = moves;
+        if (doesMove == true)
+            moveDistance = 0.03f;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -72,20 +81,11 @@ public class EnemyGeneric : MonoBehaviour {
         //DestroyLastProjectile(lastProj);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         GameObject proj = (GameObject)Instantiate(projectile, transform.position, Quaternion.identity);
-        proj.GetComponent<Rigidbody2D>().velocity = (player.transform.position - gameObject.transform.position).normalized * projectileSpeed; 
+        proj.GetComponent<Rigidbody2D>().velocity = (player.transform.position - gameObject.transform.position).normalized * projectileSpeed;
         //lastProj = proj;
-        StartCoroutine(DelayedDestroyProjectile(proj));
+
+        
+        proj.GetComponent<Fireball>().ForwardDestroy();
     }
 
-    void DestroyLastProjectile(GameObject lastProj)
-    {
-        if (lastProj != null)
-            DestroyObject(lastProj);
-    }
-
-    IEnumerator DelayedDestroyProjectile(GameObject projectile)
-    { 
-        yield return new WaitForSeconds(10);
-        DestroyObject(projectile);
-    }
 }
