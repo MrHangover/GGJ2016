@@ -18,6 +18,8 @@ public class KillPlayer : MonoBehaviour {
                 gameObject.transform.position,
                 GameObject.FindGameObjectWithTag("Player").transform.position,
                 moveDistance);
+
+        // keep z at -4 so player killer is visible
         gameObject.transform.position = new Vector3(temp.x, temp.y, -4);
 
     }
