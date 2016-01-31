@@ -14,6 +14,7 @@ public class EnvironmentChanger : MonoBehaviour {
     Environment state = Environment.Ice;
     GameObject[] arrOfObjects;
     EnemyParent[] arrOfEnemyParents;
+    List <EnemyParent> ListEnemyParents = new List<EnemyParent>();
     TileParent[,] arrOfTiles;
     bool isSwitching = true;
     Vector2 switchPos;
@@ -24,9 +25,11 @@ public class EnvironmentChanger : MonoBehaviour {
         public GameObject ice;
     };
 
+
+
 	void Start () {
         arrOfObjects = FindObjectsOfType<GameObject>();
-        arrOfEnemyParents = FindObjectsOfType<EnemyParent>();
+        ListEnemyParents.AddRange(FindObjectsOfType<EnemyParent>());
 
         /*
             Set all GameObjects in layer 8 ("env" layer) with Ice state disabled
@@ -99,10 +102,9 @@ public class EnvironmentChanger : MonoBehaviour {
 
         int enemycount=0;
 
-        foreach( EnemyParent enemyp in arrOfEnemyParents)
+        foreach( EnemyParent enemyp in ListEnemyParents)
         {
             enemycount++;
-            Debug.Log(enemyp.getState());
 
             // if enemy parent is Ice 
             // switch it so it starts as fire
@@ -186,6 +188,17 @@ public class EnvironmentChanger : MonoBehaviour {
         }
     }
 
+    
+    public void AddEnemy(EnemyParent toAddEnemy)
+    {
+        ListEnemyParents.Add(toAddEnemy);
+    }
+
+    public void RemoveEnemy(EnemyParent toRemoveEnemy)
+    {
+        ListEnemyParents.Remove(toRemoveEnemy);
+    }//*/
+
     public void SwitchState()
     {
         /*
@@ -204,7 +217,7 @@ public class EnvironmentChanger : MonoBehaviour {
         /*
             Switch all enemy objects
         */
-        foreach(EnemyParent enemyp in arrOfEnemyParents)
+        foreach(EnemyParent enemyp in ListEnemyParents)
         {
             enemyp.switchState();
         }
@@ -213,7 +226,7 @@ public class EnvironmentChanger : MonoBehaviour {
 
     void SwitchEnemysNear()
     {
-        foreach(EnemyParent enemyp in arrOfEnemyParents)
+        foreach(EnemyParent enemyp in ListEnemyParents)
         {
             GameObject enemyObj = enemyp.gameObject;
             float distance = Vector2.Distance(enemyObj.transform.position, gameObject.transform.position);

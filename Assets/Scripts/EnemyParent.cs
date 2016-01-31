@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyParent : MonoBehaviour {
     public EnvironmentChanger.Environment EnemyState;
     public GameObject fire;
     public GameObject ice;
-
+    
 
     // Use this for initialization
     void Awake () {
@@ -16,7 +17,6 @@ public class EnemyParent : MonoBehaviour {
 
     void Start()
     {
-        Debug.Log("enemyparent ice stop");
         ice.SetActive(false);
     }
 

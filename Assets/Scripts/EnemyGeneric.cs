@@ -13,6 +13,8 @@ public class EnemyGeneric : MonoBehaviour {
     public bool canKill = false;
     public bool doesShoot = false;
     public bool doesMove = true;
+
+    bool started = false;
     
 
     // ensure Coroutine of shooting doesn't shoot twice 
@@ -37,11 +39,14 @@ public class EnemyGeneric : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
+        
         if (doesMove)
             MoveTowardsPlayer();
-        if (doesShoot && !isShooting)
+        if (doesShoot && !isShooting && started)
             StartCoroutine(ShootingProjectile());
+
+        // prevent shooting at the very beginning
+        started = true;
     }
 
     void MoveTowardsPlayer()
@@ -64,7 +69,7 @@ public class EnemyGeneric : MonoBehaviour {
 
     void OnEnable()
     {
-        ShootingProjectile();
+        
     }
 
     IEnumerator ShootingProjectile()
@@ -82,9 +87,6 @@ public class EnemyGeneric : MonoBehaviour {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         GameObject proj = (GameObject)Instantiate(projectile, transform.position, Quaternion.identity);
         proj.GetComponent<Rigidbody2D>().velocity = (player.transform.position - gameObject.transform.position).normalized * projectileSpeed;
-        //lastProj = proj;
-
-        
         proj.GetComponent<Fireball>().ForwardDestroy();
     }
 

@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemySpawner : MonoBehaviour {
 
 
     public float moveDistance;
-    public GameObject enemyToSpawn;
+    public EnemyParent enemyToSpawn;
     public float spawnDelay = 3f;
+    List<EnemyParent> ListEnemySpawns = new List<EnemyParent>();
 
     public bool canKill = false;
     public bool doesShoot = false;
@@ -22,22 +24,33 @@ public class EnemySpawner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (!isSpawning)
-            SpawnEnemy();
+        {
+            StartCoroutine(  SpawnEnemy());
+            isSpawning = true;
+        }
         else
-            Rest();
-	}
+        {
+            StartCoroutine( Rest());
+        }
+    }
+
+    int count = 0;        
 
     IEnumerator SpawnEnemy()
     {
         for (int i = 0; i < 5; i++)
         {
-            Instantiate(enemyToSpawn,transform.position,Quaternion.identity);
+            Debug.Log("Spawn count: " + count);
+            count++;
+            EnemyParent temp = (EnemyParent) Instantiate(enemyToSpawn,transform.position,Quaternion.identity);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<EnvironmentChanger>().AddEnemy(temp);
             yield return new WaitForSeconds(spawnDelay);
         }
     }
 
     IEnumerator Rest()
     {
+        Debug.Log("resting");
         yield return new WaitForSeconds(10);
         isSpawning = true;
     }
