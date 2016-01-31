@@ -9,7 +9,7 @@ public class Movement : MonoBehaviour {
     public float acceleration = 2f;
     [Range(0f, 50f)]
     public float friction = 1f;
-    public GameObject newMe;
+    public bool cameraFollow = true;
 
     Vector2 input;
     Rigidbody2D body;
@@ -21,7 +21,10 @@ public class Movement : MonoBehaviour {
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         respawnPosition = transform.position;
-        newMe = gameObject;
+        if (cameraFollow)
+        {
+            Camera.main.orthographicSize = 6f;
+        }
     }
 
     // Update is called once per frame
@@ -41,6 +44,14 @@ public class Movement : MonoBehaviour {
             anim.SetBool("isMoving", false);
         }
         anim.SetFloat("ySpeed", input.y);
+
+        if (cameraFollow)
+        {
+            Vector3 cameraMoveTo = new Vector3(transform.position.x + input.x * 1.5f,
+                                               transform.position.y + input.y * 1.5f, 
+                                               Camera.main.transform.position.z);
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraMoveTo, 0.03f);
+        }
     }
 
     void FixedUpdate()

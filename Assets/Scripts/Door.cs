@@ -19,12 +19,14 @@ public class Door : MonoBehaviour {
     {
         rend.sprite = sprites[1];
         col.isTrigger = true;
+        Debug.Log("Opening!");
     }
 
     public void Close()
     {
         rend.sprite = sprites[0];
         col.isTrigger = false;
+        Debug.Log("Closing!");
     }
 
     void OnEnable()

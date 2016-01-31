@@ -9,15 +9,19 @@ public class EnvironmentChanger : MonoBehaviour {
 
     // must be public to allow EnemyRegular.cs to access
     public enum Environment {Fire, Ice};
-    
+    public Color iceColor;
+    public Color fireColor;
+    public Environment envAtPlayer;
+    public bool canChange = true;
+
     // Player state starts as Ice (the surrounding bubble)
-    Environment state = Environment.Ice;
     GameObject[] arrOfObjects;
     EnemyParent[] arrOfEnemyParents;
     List <EnemyParent> ListEnemyParents = new List<EnemyParent>();
     TileParent[,] arrOfTiles;
     bool isSwitching = true;
     Vector2 switchPos;
+    ParticleSystem particles;
 
     struct TileParent
     {
@@ -28,6 +32,16 @@ public class EnvironmentChanger : MonoBehaviour {
 
 
 	void Start () {
+        particles = GetComponent<ParticleSystem>();
+        particles.Stop();
+        if(envAtPlayer == Environment.Ice)
+        {
+            Camera.main.backgroundColor = fireColor;
+        }
+        else
+        {
+            Camera.main.backgroundColor = iceColor;
+        }
         arrOfObjects = FindObjectsOfType<GameObject>();
         ListEnemyParents.AddRange(FindObjectsOfType<EnemyParent>());
 
@@ -76,28 +90,36 @@ public class EnvironmentChanger : MonoBehaviour {
                 int xPos = (int)obj.transform.position.x;
                 int yPos = (int)obj.transform.position.y;
 
-                if (obj.tag == "Ice")
+                if (obj.tag == "Ice" && envAtPlayer == Environment.Ice)
                 {
                     arrOfTiles[xPos, yPos].ice = obj;
                     obj.SetActive(false);
                 }
-                else
+                else if (obj.tag == "Ice" && envAtPlayer == Environment.Fire)
+                {
+                    arrOfTiles[xPos, yPos].ice = obj;
+                }
+                else if (obj.tag == "Fire" && envAtPlayer == Environment.Ice)
                 {
                     arrOfTiles[xPos, yPos].fire = obj;
+                }
+                else if (obj.tag == "Fire" && envAtPlayer == Environment.Fire)
+                {
+                    arrOfTiles[xPos, yPos].fire = obj;
+                    obj.SetActive(false);
                 }
             }
             else if (obj.layer == 9)
             {
-                if (obj.tag == "Ice")
+                if (obj.tag == "Ice" && envAtPlayer == Environment.Ice)
                 {
                     obj.SetActive(false);
-
                 }
-                else { /* Fire object*/ }
+                else if (obj.tag == "Fire" && envAtPlayer == Environment.Fire) {
+                    obj.SetActive(false);
+                }
+                //else { /* Fire object*/ }
             }
-
-            
-
         }
 
         int enemycount=0;
@@ -120,6 +142,7 @@ public class EnvironmentChanger : MonoBehaviour {
     {
         bool done = false;
         int i = 0;
+        particles.Play();
         while(done == false)
         {
             int xMin = Mathf.Clamp((int)switchPos.x - i, 0, width - 1);
@@ -160,13 +183,15 @@ public class EnvironmentChanger : MonoBehaviour {
             i++;
             yield return new WaitForSeconds(0.02f);
         }
-        if (state == Environment.Ice)
+        if (envAtPlayer == Environment.Ice)
         {
-            state = Environment.Fire;
+            Camera.main.backgroundColor = iceColor;
+            envAtPlayer = Environment.Fire;
         }
         else
         {
-            state = Environment.Ice;
+            Camera.main.backgroundColor = fireColor;
+            envAtPlayer = Environment.Ice;
         }
         isSwitching = true;
 
@@ -174,7 +199,7 @@ public class EnvironmentChanger : MonoBehaviour {
         {
             if (parent.ice != null)
             {
-                if (state == Environment.Fire)
+                if (envAtPlayer == Environment.Fire)
                 {
                     parent.ice.SetActive(true);
                     parent.fire.SetActive(false);
@@ -186,6 +211,7 @@ public class EnvironmentChanger : MonoBehaviour {
                 }
             }
         }
+        SwitchTilesNear();
     }
 
     
@@ -233,14 +259,14 @@ public class EnvironmentChanger : MonoBehaviour {
             if (distance < 5)
             {
                 // if enemy state doesn't equal player state
-                if(enemyp.getState() != state)
+                if(enemyp.getState() != envAtPlayer)
                 {
                     enemyp.switchState();
                 }
             }
             else if (distance <7 )
             {
-                if(enemyp.getState() == state)
+                if(enemyp.getState() == envAtPlayer)
                 {
                     enemyp.switchState();
                 }
@@ -265,7 +291,7 @@ public class EnvironmentChanger : MonoBehaviour {
             {
                 if ((x == xMin || x == xMax - 1) || (y == yMin || y == yMax - 1))
                 {
-                    if (state == Environment.Fire)
+                    if (envAtPlayer == Environment.Fire)
                     {
                         if (arrOfTiles[x, y].fire != null)
                             arrOfTiles[x, y].fire.SetActive(false);
@@ -280,7 +306,7 @@ public class EnvironmentChanger : MonoBehaviour {
                             arrOfTiles[x, y].ice.SetActive(false);
                     }
                 }
-                else if (state == Environment.Fire)
+                else if (envAtPlayer == Environment.Fire)
                 {
                     if (arrOfTiles[x, y].fire != null)
                         arrOfTiles[x, y].fire.SetActive(true);
@@ -304,11 +330,11 @@ public class EnvironmentChanger : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         //Input for switching tiles
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && canChange)
         {
             SwitchState();
         }
-        if(isSwitching)
+        if(isSwitching && canChange)
             SwitchTilesNear();
         SwitchEnemysNear();
     }

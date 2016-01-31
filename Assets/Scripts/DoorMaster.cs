@@ -9,7 +9,7 @@ public class DoorMaster : MonoBehaviour {
     int buttonsActivated = 0;
     Door[] childDoors;
 	
-    void Start()
+    void Awake()
     {
         childDoors = GetComponentsInChildren<Door>();
         Debug.Log(childDoors.Length);
