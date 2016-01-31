@@ -84,7 +84,7 @@ public class Movement : MonoBehaviour {
     {
         
         Debug.Log("Trigger!");
-
+        /*
         GameObject colObj = collide.gameObject;
 
         if(colObj.GetComponent<EnemyGeneric>().gameObject != null)
@@ -103,6 +103,7 @@ public class Movement : MonoBehaviour {
             Debug.Log("Hvad er det? "+collide.gameObject.name);
         }
         return;
+        */
     }
     
     void Reset()
